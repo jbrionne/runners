@@ -1,0 +1,13 @@
+ansible==2.9.19
+jinja2==2.10.1
+netaddr==0.7.19
+pbr==5.5.1
+hvac==0.8.2
+jmespath==0.9.4
+ruamel.yaml==0.15.96
+construct==2.10.54
+pykeepass==3.2.0
+molecule==3.3.0
+molecule-docker==0.2.4
+yamllint==1.26.1
+flake8==3.9.0
