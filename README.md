@@ -60,7 +60,51 @@ local-path-storage   local-path-provisioner-78776bfc44-b995k      1/1     Runnin
 ## Run ansible
 
 ```
+mkdir my_ansible_project
+mkdir ansible_collections
+cd ansible_collections
 ansible-galaxy collection init my_namespace.my_collection
 cd my_namespace/my_collection/roles
 molecule init role my-new-role --driver-name docker
+```
+
+Add in the task yaml the following lines:
+
+```
+- name: Ensure the myapp Namespace exists.
+  community.kubernetes.k8s:
+    api_version: v1
+    kind: Namespace
+    name: myapp
+    state: present
+```
+
+```
+ansible-galaxy collection install community.kubernetes
+```
+
+Create the "ansible.cfg" file with at least the collection paths:
+```
+[defaults]
+collections_paths = ~/.ansible/collections:/usr/share/ansible/collections:/runner/my_ansible_project
+```
+
+Create the playbook test.yml
+
+
+```
+- hosts: localhost
+  gather_facts: true
+  connection: local
+  collections:
+    - my_namespace.my_collection
+  tasks:
+      - import_role:
+          name: my-new-role
+```
+
+Run
+
+```
+ansible-playbook test.yml
 ```
